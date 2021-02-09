@@ -241,12 +241,57 @@
 				    </header>
 				     <section class="docs-section" id="mgmt-package-down">
 						<h2 class="section-heading">Package Download</h2>
-						<p>Package download</p>
+						<p>
+							<h5>Assuming Internet connection and an updated OS, run the following command:</h5>
+							<ol>
+								<li>
+									<code>
+								wget -O /etc/yum.repos.d/beegfs_rhel7.repo https://www.beegfs.io/release/latest-stable/dists/beegfs-rhel7.repo
+									</code>
+								</li>
+								<li>
+									<code> yum install -y beegfs-mgmtd beegfs-meta 
+								kernel-devel gcc beegfs-client beegfs-helperd
+								beegfs-utils</code>
+								</li>
+							</ol>
+						</p>
 					</section><!--//section-->
 					
 					<section class="docs-section" id="mgmt-basic-conf">
 						<h2 class="section-heading">Basic Configuration</h2>
-						<p>mgmt basic conf</p>
+						<p>
+							<h3> Run the following commands in terminal: </h3>
+							<br>
+							<code>mgmt_name=[hostname of management
+										node]</code>
+							<br>
+							<br>
+							<h4>Management Service</h4>
+
+							<ol>
+								<li>
+									<code>
+										/opt/beegfs/sbin/beegfs-setup-mgmtd -p
+										/data/beegfs/beegfs_mgmtd
+									</code>
+								</li>
+								<li>
+									<h6>To enable quota management, set:</h6>
+									<code> quotaEnableEnforcemenet = true</code><br> in <br>
+									<code> /etc/beegfs/beegfs-mgmtd.conf </code>
+								</li>
+							</ol>
+
+							<h4>Metadata Service</h4>
+							<ul><li><code>/opt/beegfs/sbin/beegfs-setup-meta -p
+										/data/beegfs/beegfs_meta -s 1 -m $mgmt_name</code></li></ul>
+
+
+							<h4>Client Service</h4>
+							<ul><li><code>/opt/beegfs/sbin/beegfs-setup-client -m
+										$mgmt_name</code></li></ul>
+						</p>
 					</section><!--//section-->
 					
 					<section class="docs-section" id="mgmt-advanced-conf">
