@@ -99,7 +99,8 @@
 								Installation</a></li>
 				    <li class="nav-item"><a class="nav-link scrollto"
 								href="#computing-package-down">Package Download</a></li>
-				    <li class="nav-item"><a class="nav-link scrollto" href="#item-5-2">Section Item 5.2</a></li>
+				    <li class="nav-item"><a class="nav-link scrollto"
+								href="#computing-basic-conf">Basic Configuration</a></li>
 				    <li class="nav-item"><a class="nav-link scrollto" href="#item-5-3">Section Item 5.3</a></li>
 				    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-6"><span class="theme-icon-holder mr-2"><i class="fas fa-laptop-code"></i></span>Web</a></li>
 				    <li class="nav-item"><a class="nav-link scrollto" href="#item-6-1">Section Item 6.1</a></li>
@@ -243,8 +244,8 @@
 							<code>xCAT</code> running, run the following command:</h5>
 							<ol>
 								<li>
-									<code class="language-bash">
-										<span class="hljs-built_in">wget</span> -O /etc/yum.repos.d/beegfs_rhel7.repo https://www.beegfs.io/release/latest-stable/dists/beegfs-rhel7.repo
+									<code>
+										wget -O /etc/yum.repos.d/beegfs_rhel7.repo https://www.beegfs.io/release/latest-stable/dists/beegfs-rhel7.repo
 									</code>
 								</li>
 								<li>
@@ -252,11 +253,20 @@
 								</li>
 								<li>
 									<code>mkdir -p $beegfsDir</code>
+								</li>
 								<li>
-									
+									<code> yum install -y --downloadonly
+										--downloaddir="$beegfsDir" beegfs-mgmtd beegfs-meta 
+									kernel-devel gcc beegfs-client beegfs-helperd beegfs-utils
+									beegfs-storage</code>
+								</li>
+								<li>
+									<code>cd $beegfsDir &amp;&amp; create repo .</code>
+								</li>
+								<li>
 									<code> yum install -y beegfs-mgmtd beegfs-meta 
-								kernel-devel gcc beegfs-client beegfs-helperd
-								beegfs-utils</code>
+									kernel-devel gcc beegfs-client beegfs-helperd beegfs-utils 
+									</code>
 								</li>
 							</ol>
 						</p>
@@ -301,11 +311,29 @@
 							</ol>
 
 
-							<h4>Client Service</h4>
+							<h4 id="mgmt-client-service">Client Service</h4>
 							<ol>
 								<li>
 									<code>/opt/beegfs/sbin/beegfs-setup-client -m
 										$mgmt_name</code>
+								</li>
+								<li>
+									<div class="callout-block callout-block-warning">
+											<div class="content">
+													<h4 class="callout-title">
+														<span class="callout-icon-holder mr-1">
+															<i class="fas fa-bullhorn"></i>
+													</span><!--//icon-holder-->
+														Warning
+												</h4>
+												<p>Before you start <code>beegfs-client</code> service,
+												make sure that at least one instance of 
+												<code>beegfs-storage</code>service is running on any
+												computing node. <a
+													href="#computing-storage-service">Look here.</a></p>
+											</div><!--//content-->
+									</div><!--//callout-block-->
+
 								</li>
 								<li><code>systemctl start beegfs-client</code></li>
 								<li><code>systemctl status beegfs-client</code></li>
@@ -344,9 +372,10 @@
 				     <section class="docs-section" id="computing-package-down">
 						<h2 class="section-heading">Package Download</h2>
 						<p>
-						<h5>Assuming the management server has <code>beegfs</code> services
+						<h5>Assuming <code>xCAT</code> is running on the management
+							server that has <code>beegfs</code> services
 							downloaded in <code>/install/beegfs</code> and the name of the
-							management server host is <code>mgmt</code>:</h5>
+							host name of the management server is <code>mgmt</code>:</h5>
 							<ol>
 								<li>
 									<p>Save this in a file
@@ -381,13 +410,59 @@ gpgcheck=0</span>
 						</p>
 					</section><!--//section-->
 					
-					<section class="docs-section" id="item-5-2">
-						<h2 class="section-heading">Section Item 5.2</h2>
-						<p>Vivamus efficitur fringilla ullamcorper. Cras condimentum condimentum mauris, vitae facilisis leo. Aliquam sagittis purus nisi, at commodo augue convallis id. Sed interdum turpis quis felis bibendum imperdiet. Mauris pellentesque urna eu leo gravida iaculis. In fringilla odio in felis ultricies porttitor. Donec at purus libero. Vestibulum libero orci, commodo nec arcu sit amet, commodo sollicitudin est. Vestibulum ultricies malesuada tempor.</p>
+					<section class="docs-section" id="computing-basic-conf">
+						<h2 class="section-heading">Basic Configuration</h2>
+						<p>	
+							<h3> Run the following commands in terminal: </h3>
+							<br>
+							<code>mgmt_name=[hostname of management
+										node]</code>
+							<br>
+							<br>
+							<h4 id="computing-storage-service">Storage Service</h4>
+							<ol>
+								<li><code>n=[index of computing node]</code>
+								</li>
+								<li>
+									<code>beegfsStorageDir=/beegfs_storage</code>
+								<li>
+									<code>/opt/beegfs/sbin/beegfs-setup-storage -p
+										$beegfsStorageDir -s $n -i $n01 -m $mgmt_name
+									</code>
+								</li>
+								<li>
+									<code>systemctl start beegfs-storage</code>
+								</li>
+								<li>
+									<code>systemctl status beegfs-storage</code>
+								</li>
+								<li>
+									If <code>beegfs-storage</code> is <code><em
+											style="color:green">active</em></code>, you can go
+									back to <a href="#mgmt-client-service"><code>beegfs-client</code> on the
+										management server.</a>
+								</li>
+
+							</ol>
+							<h4 >Client Service</h4>
+							<ol>
+								<li>
+									<code>/opt/beegfs/sbin/beegfs-setup-client -m
+										$mgmt_name</code>
+								</li>
+								<li>Change <br><code>quotaEnabled
+										= true</code><br>inside<br><code>/etc/beegfs/beegfs-client.conf</code>
+								</li>
+								<li><code>systemctl start beegfs-helperd beegfs-client</code></li>
+								<li><code>systemctl status beegfs-client</code></li>
+							</ol>
+
+						</p>
+						
 					</section><!--//section-->
 					
 					<section class="docs-section" id="item-5-3">
-							<h2 class="section-heading">Section Item 5.3</h2>
+							<h2 class="#computing-basic-conf">Section Item 5.3</h2>
 						<p>Vivamus efficitur fringilla ullamcorper. Cras condimentum condimentum mauris, vitae facilisis leo. Aliquam sagittis purus nisi, at commodo augue convallis id. Sed interdum turpis quis felis bibendum imperdiet. Mauris pellentesque urna eu leo gravida iaculis. In fringilla odio in felis ultricies porttitor. Donec at purus libero. Vestibulum libero orci, commodo nec arcu sit amet, commodo sollicitudin est. Vestibulum ultricies malesuada tempor.</p>
 					</section><!--//section-->
 			    </article><!--//docs-article-->
