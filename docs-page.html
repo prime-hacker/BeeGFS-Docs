@@ -423,6 +423,13 @@ gpgcheck=0</span>
 							<br>
 							<h4 id="computing-storage-service">Storage Service</h4>
 							<ol>
+								<li>
+									<h5>Quota Management</h5>
+									<p>For a <code>XFS</code> file sysetem, make sure that the
+									storage dir <code>$beegfsStorageDir</code> is mounted with the options:
+									<code>uqnoenforce,gqnoenforce</code> inside
+									<code>/etc/fstab</code> file.</p>
+								</li>
 								<li><code>n=[index of computing node]</code>
 								</li>
 								<li>
@@ -464,17 +471,18 @@ gpgcheck=0</span>
 					</section><!--//section-->
 					
 					<section class="docs-section" id="item-5-3">
-							<h2 class="#computing-basic-conf">Section Item 5.3</h2>
+							<h2 class="">Section Item 5.3</h2>
 						<p>Vivamus efficitur fringilla ullamcorper. Cras condimentum condimentum mauris, vitae facilisis leo. Aliquam sagittis purus nisi, at commodo augue convallis id. Sed interdum turpis quis felis bibendum imperdiet. Mauris pellentesque urna eu leo gravida iaculis. In fringilla odio in felis ultricies porttitor. Donec at purus libero. Vestibulum libero orci, commodo nec arcu sit amet, commodo sollicitudin est. Vestibulum ultricies malesuada tempor.</p>
 					</section><!--//section-->
 			    </article><!--//docs-article-->
 			    
 			    
-		        <article class="docs-article" id="section-6">
+		        <article class="docs-article" id="testing">
 				    <header class="docs-header">
 					    <h1 class="docs-heading">Testing</h1>
 					    <section class="docs-intro">
-						    <p>Section intro goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque finibus condimentum nisl id vulputate. Praesent aliquet varius eros interdum suscipit. Donec eu purus sed nibh convallis bibendum quis vitae turpis. Duis vestibulum diam lorem, vitae dapibus nibh facilisis a. Fusce in malesuada odio.</p>
+						    <p>Some commands that checks the connectivity and free storage
+								of <code>beegfs</code>services.</p>
 						</section><!--//docs-intro-->
 				    </header>
 				     <section class="docs-section" id="item-6-1">
