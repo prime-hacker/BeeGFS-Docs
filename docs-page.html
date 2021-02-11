@@ -20,7 +20,8 @@
     <script defer src="assets/fontawesome/js/all.min.js"></script>
     
     <!-- Plugins CSS -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.2/styles/atom-one-dark.min.css">
+    <link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.2/styles/atom-one-light.min.css">
 
     <!-- Theme CSS -->  
     <link id="theme-style" rel="stylesheet" href="assets/css/theme.css">
@@ -96,7 +97,8 @@
 								scrollto" href="#computing-install"><span class="theme-icon-holder
 									mr-2"><i class="fas fa-arrow-down"></i></span>cnX
 								Installation</a></li>
-				    <li class="nav-item"><a class="nav-link scrollto" href="#item-5-1">Section Item 5.1</a></li>
+				    <li class="nav-item"><a class="nav-link scrollto"
+								href="#computing-package-down">Package Download</a></li>
 				    <li class="nav-item"><a class="nav-link scrollto" href="#item-5-2">Section Item 5.2</a></li>
 				    <li class="nav-item"><a class="nav-link scrollto" href="#item-5-3">Section Item 5.3</a></li>
 				    <li class="nav-item section-title mt-3"><a class="nav-link scrollto" href="#section-6"><span class="theme-icon-holder mr-2"><i class="fas fa-laptop-code"></i></span>Web</a></li>
@@ -237,14 +239,21 @@
 				     <section class="docs-section" id="mgmt-package-down">
 						<h2 class="section-heading">Package Download</h2>
 						<p>
-							<h5>Assuming Internet connection and an updated OS, run the following command:</h5>
+						<h5>Assuming Internet connection and an updated OS with
+							<code>xCAT</code> running, run the following command:</h5>
 							<ol>
 								<li>
-									<code>
-								wget -O /etc/yum.repos.d/beegfs_rhel7.repo https://www.beegfs.io/release/latest-stable/dists/beegfs-rhel7.repo
+									<code class="language-bash">
+										<span class="hljs-built_in">wget</span> -O /etc/yum.repos.d/beegfs_rhel7.repo https://www.beegfs.io/release/latest-stable/dists/beegfs-rhel7.repo
 									</code>
 								</li>
 								<li>
+									<code>beegfsDir=/install/beegfs</code>
+								</li>
+								<li>
+									<code>mkdir -p $beegfsDir</code>
+								<li>
+									
 									<code> yum install -y beegfs-mgmtd beegfs-meta 
 								kernel-devel gcc beegfs-client beegfs-helperd
 								beegfs-utils</code>
@@ -314,12 +323,62 @@
 				    <header class="docs-header">
 					    <h1 class="docs-heading">Computing Nodes Installation</h1>
 					    <section class="docs-intro">
-						    <p>Section intro goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque finibus condimentum nisl id vulputate. Praesent aliquet varius eros interdum suscipit. Donec eu purus sed nibh convallis bibendum quis vitae turpis. Duis vestibulum diam lorem, vitae dapibus nibh facilisis a. Fusce in malesuada odio.</p>
+								<p>As per  <a href="#sys-arch" target="_blank">our system architecture</a>, we have multiple computing
+								nodes on our cluster, each has a <code>beegfs-storage</code> service,
+								<code>beegfs-client</code> service and
+								a <code>beegfs-utils</code> service.</p>
+								<div class="callout-block callout-block-warning">
+										<div class="content">
+												<h4 class="callout-title">
+													<span class="callout-icon-holder mr-1">
+														<i class="fas fa-bullhorn"></i>
+												</span><!--//icon-holder-->
+													Warning
+											</h4>
+											<p>The following commands must be ran on all <b><em>computing
+													nodes</em></b>.</p>
+										</div><!--//content-->
+								</div><!--//callout-block-->
 						</section><!--//docs-intro-->
 				    </header>
-				     <section class="docs-section" id="item-5-1">
-						<h2 class="section-heading">Section Item 5.1</h2>
-						<p>Vivamus efficitur fringilla ullamcorper. Cras condimentum condimentum mauris, vitae facilisis leo. Aliquam sagittis purus nisi, at commodo augue convallis id. Sed interdum turpis quis felis bibendum imperdiet. Mauris pellentesque urna eu leo gravida iaculis. In fringilla odio in felis ultricies porttitor. Donec at purus libero. Vestibulum libero orci, commodo nec arcu sit amet, commodo sollicitudin est. Vestibulum ultricies malesuada tempor.</p>
+				     <section class="docs-section" id="computing-package-down">
+						<h2 class="section-heading">Package Download</h2>
+						<p>
+						<h5>Assuming the management server has <code>beegfs</code> services
+							downloaded in <code>/install/beegfs</code> and the name of the
+							management server host is <code>mgmt</code>:</h5>
+							<ol>
+								<li>
+									<p>Save this in a file
+									<code>beegfs_computing_install.sh</code> and run
+									it.</p>
+									<div class="docs-code-block"><pre class="shadow-lg
+									rounded"><code class="language-bash hljs">#!/bin/bash
+# This script has to be run only once after the system is up
+# OR we need to check on the need for restart after running yum update -y
+
+<span class="hljs-built_in">touch</span> /etc/yum.repos.d/beegfs.repo
+
+<span class="hljs-built_in">cat</span> &gt; /etc/yum.repos.d/beegfs.repo &lt;&lt; <span class="hljs-built_in">EOF</span>
+<span class="hljs-string">[BeeGFS]
+name=BeeGFS
+baseurl=http://mgmt:/install/beegfs/
+enabled=1
+gpgcheck=0</span>
+
+<span class="hljs-built_in">EOF</span>
+
+# restart after running this command
+<span class="hljs-built_in">yum update</span> -y &amp;&amp; <span class="hljs-built_in">reboot</span></code></pre>
+									</div>
+
+								</li>
+								<li>
+									<code>yum install -y beegfs-storage kernel-devel gcc beegfs-client
+										beegfs-utils beegfs-helperd</code>
+								</li>
+							</ol>
+						</p>
 					</section><!--//section-->
 					
 					<section class="docs-section" id="item-5-2">
@@ -407,6 +466,9 @@
     <script src="assets/plugins/jquery.scrollTo.min.js"></script>
     <script src="assets/plugins/lightbox/dist/ekko-lightbox.min.js"></script> 
     <script src="assets/js/docs.js"></script> 
+
+		<script>hljs.initHighlightingOnLoad();</script>
+
 
 </body>
 </html> 
