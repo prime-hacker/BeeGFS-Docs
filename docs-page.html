@@ -440,7 +440,8 @@
 							<ol>
 								<li>
 									<p>Save this in a file
-									<code>beegfs_computing_install.sh</code> and run
+									<code>beegfs_computing_install.sh</code>, <code>chmod +x
+										beegfs_computing_install.sh</code> and run
 									it.</p>
 									<div class="docs-code-block"><pre class="shadow-lg
 									rounded"><code class="language-bash hljs">#!/bin/bash
@@ -459,7 +460,11 @@ gpgcheck=0</span>
 <span class="hljs-built_in">EOF</span>
 
 # restart after running this command
-<span class="hljs-built_in">yum update</span> -y &amp;&amp; <span class="hljs-built_in">reboot</span></code></pre>
+<span class="hljs-built_in">yum </span>update -y &amp;&amp; <span class="hljs-built_in">reboot</span></code></pre>
+									<figcaption class="figure-caption mt-3">
+										<i class="fas fa-info-circle mr-2"></i>
+										<code>beegfs_computing_install.sh</code>
+									</figcaption>
 									</div>
 
 								</li>
@@ -520,7 +525,7 @@ gpgcheck=0</span>
 							computing nodes using <code>xCAT</code>.
 								<div class="docs-code-block"><pre class="shadow-lg rounded"><code class="language-bash hljs">#!/bin/bash
 # beegfs-storage configuration
-<span class="hljs-built_in">yum install </span>-y beegfs-storage
+<span class="hljs-built_in">yum </span>install -y beegfs-storage
 mgmt_name=<span class="hljs-string">"mgmt"</span>
 beegfsStorageDir=<span class="hljs-string">/storage</span>
 name=<span class="hljs-built_in">$(hostname)</span>
@@ -533,6 +538,11 @@ n=<span class="hljs-built_in">${name:2}</span> # assuming the name will be cnX: 
 									class="hljs-string">"$mgmt_name"</span>
 # start the service
 <span class="hljs-built_in">systemctl start</span> beegfs-storage</code></pre>
+
+									<figcaption class="figure-caption mt-3">
+										<i class="fas fa-info-circle mr-2"></i>
+										<code>beegfs_storage_install.sh</code>
+									</figcaption>
 								</div>
 							</p>
 							<h4 >Client Service</h4>
@@ -547,6 +557,28 @@ n=<span class="hljs-built_in">${name:2}</span> # assuming the name will be cnX: 
 								<li><code>systemctl start beegfs-helperd beegfs-client</code></li>
 								<li><code>systemctl status beegfs-client</code></li>
 							</ol>
+						</p>
+						<p>
+							This is a script to automate the steps of the client service
+							installation. Save this in <code>beegfs_client_install.sh</code>
+							and <code> chmod +x beegfs_client_install.sh </code>, then execute
+							it on all computing nodes using <code>xCAT</code>.
+
+							<div class="docs-code-block">
+								<pre class="shadow-lg rounded"><code class="language-bash
+								hljs">#!/bin/bash
+<span class="hljs-built_in">yum</span> install -y kernel-devel beegfs-client beegfs-utils beegfs-helperd
+mgmt_name=<span class="hljs-string">"mgmt"</span>
+/opt/beegfs/sbin/beegfs-setup-client -m <span
+class="hljs-string">"$mgmt_name"</span>
+<span class="hljs-built_in">sed</span> -i <span
+								class="hljs-string">"s/^quotaEnabled.*/quotaEnabled				= true/"</span> /etc/beegfs/beegfs-client.conf
+<span class="hljs-built_in">systemctl</span> start beegfs-helperd beegfs-client</code></pre>
+								<figcaption class="figure-caption mt-3">
+									<i class="fas fa-info-circle mr-2"></i>
+									<code> beegfs_client_install.sh</code>
+								</figcaption>
+							</div>
 
 						</p>
 						
