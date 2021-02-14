@@ -514,12 +514,25 @@ gpgcheck=0</span>
 
 							</ol>
 							<p>
-								This is a script for the steps.
-								<div class="docs-code-block">
-									<pre class="shadow-lg rounded">
-										<code class="language-bash hljs">
-										</code>
-									</pre>
+							This is a script for the steps. Save this in
+							<code>beegfs_storage_install.sh</code> and <code> chmod +x
+								beegfs_storage_install.sh </code>, then execute it on all
+							computing nodes using <code>xCAT</code>.
+								<div class="docs-code-block"><pre class="shadow-lg rounded"><code class="language-bash hljs">#!/bin/bash
+# beegfs-storage configuration
+<span class="hljs-built_in">yum install </span>-y beegfs-storage
+mgmt_name=<span class="hljs-string">"mgmt"</span>
+beegfsStorageDir=<span class="hljs-string">/storage</span>
+name=<span class="hljs-built_in">$(hostname)</span>
+n=<span class="hljs-built_in">${name:2}</span> # assuming the name will be cnX: cn1, cn2, ...
+# we're just adding one storage device
+/opt/beegfs/sbin/beegfs-setup-storage -p <span
+									class="hljs-string">"$beegfsStorageDir"</span> -s <span
+									class="hljs-string">"$n"</span> -i <span
+									class="hljs-string">"$n01"</span> -m <span
+									class="hljs-string">"$mgmt_name"</span>
+# start the service
+<span class="hljs-built_in">systemctl start</span> beegfs-storage</code></pre>
 								</div>
 							</p>
 							<h4 >Client Service</h4>
