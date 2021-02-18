@@ -693,7 +693,24 @@ class="hljs-string">"$mgmt_name"</span>
     <script src="assets/plugins/lightbox/dist/ekko-lightbox.min.js"></script> 
     <script src="assets/js/docs.js"></script> 
 
-		<script>hljs.initHighlightingOnLoad();</script>
+		<script>
+			$(document).ready(function() {
+				
+				hljs.initHighlightingOnLoad();
+				
+				$("code").on("click", function(event) {
+					const copyText = ($(this).text()).replace(/(\r\n|\n|\r)/gm, "");
+					console.log(copyText);
+					const textArea = document.createElement('textarea');
+					
+					textArea.textContent = copyText;
+					document.body.append(textArea);
+				  textArea.select();
+				  document.execCommand("copy");
+					textArea.remove();
+				});
+			});
+		</script>
 
 
 </body>
