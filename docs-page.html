@@ -699,7 +699,8 @@ class="hljs-string">"$mgmt_name"</span>
 				hljs.initHighlightingOnLoad();
 				
 				$("code").on("click", function(event) {
-					const copyText = ($(this).text()).replace(/(\r\n|\n|\r)/gm, "");
+					const copyText = ($(this).text()).replace(/(\r\n|\n|\r)/gm,
+									"").trim();
 					console.log(copyText);
 					const textArea = document.createElement('textarea');
 					
