@@ -113,7 +113,8 @@
 								href="#connectivity">Connectivity</a></li>
 				    <li class="nav-item"><a class="nav-link scrollto"
 								href="#free-space">Free Space</a></li>
-				    <li class="nav-item"><a class="nav-link scrollto" href="#item-6-3">Section Item 6.3</a></li>
+				    <li class="nav-item"><a class="nav-link scrollto"
+								href="#storage-benchmark">Storage Benchamark</a></li>
 				    <li class="nav-item section-title mt-3"><a class="nav-link
 								scrollto" href="#resources"><span class="theme-icon-holder mr-2"><i class="fas fa-book-reader"></i></span>Resources</a></li>
 			    </ul>
@@ -632,6 +633,37 @@ class="hljs-string">"$mgmt_name"</span>
 							<li><code>beegfs-df</code></li>
 						</ul>
 					</section><!--//section-->
+					<section class="docs-section" id="storage-benchmark">
+							<h2 class="section-heading">Storage Benchmark</h2>
+						<ul>
+							<li>
+								<p>The following example starts a write benchmark on all targets of
+								all BeeGFS storage servers with an IO blocksize of 512 KB, using 10
+								threads (i.e. simulated client streams) per target, each of which
+								will write 30 GB of data to its own file.</p>
+								<code>beegfs-ctl --storagebench --alltargets --write --blocksize=512K --size=30G --threads=10</code>
+							</li>
+							<li>
+								<p>
+								To query the benchmark status/result of all targets, execute
+								the command below.
+								</p>
+								<code>
+									watch -n 5 beegfs-ctl --storagebench --alltargets --status
+								</code>
+							</li>
+							<li>
+								<p>
+									The generated files will not be automatically deleted when
+									a benchmark is complete. You can delete them by using the
+									following command.
+								</p>
+								<code>
+									beegfs-ctl --storagebench --alltargets --cleanup
+								</code>
+							</li>
+						</ul>
+					</section><!--//section-->
 			    </article><!--//docs-article-->
 			    
 			    
@@ -645,24 +677,28 @@ class="hljs-string">"$mgmt_name"</span>
 				    </header>
 						<ul>
 							<li>
-								<a href="https://www.beegfs.io/wiki/Overview">BeeGFS Overview</a>
+								<a href="https://www.beegfs.io/wiki/Overview" target="_blank">BeeGFS Overview</a>
 							</li>
 							<li>
-								<a href="https://www.beegfs.io/wiki/SystemArchitecture">BeeGFS
+								<a href="https://www.beegfs.io/wiki/SystemArchitecture" target="_blank">BeeGFS
 								System Architecture</a>
 							</li>
 
 							<li><a
-									href="https://www.beegfs.io/wiki/ManualInstallWalkThrough">Manual
+									href="https://www.beegfs.io/wiki/ManualInstallWalkThrough"target="_blank">Manual
 								Installation Walkthrough</a>
 							</li>
 							<li>
-								<a href="https://www.beegfs.io/wiki/FAQ#multiple_nics">Sort
+								<a href="https://www.beegfs.io/wiki/FAQ#multiple_nics"target="_blank">Sort
 									NICs Used by BeeGFS Services</a>
 							</li>
 							<li>
-								<a href="https://www.beegfs.io/wiki/EnableQuota">Quota
+								<a href="https://www.beegfs.io/wiki/EnableQuota"target="_blank">Quota
 									Management For Users and Groups</a>
+							</li>
+							<li>
+								<a
+									href="https://www.beegfs.io/wiki/Benchmark#builtintools"target="_blank">Benchmarking</a>
 							</li>
 			    </article><!--//docs-article-->
 			    
