@@ -444,7 +444,7 @@
 									<code>beegfs_computing_install.sh</code>, <code>chmod +x
 										beegfs_computing_install.sh</code> and put it under
 									<code>/install/postscripts/</code> directroy, then append it
-									to the postscripts of each computing node.</p>
+									to the postbootscripts of each computing node.</p>
 									<div class="docs-code-block"><pre class="shadow-lg
 									rounded"><code class="language-bash hljs">#!/bin/bash
 # This script has to be run only once after the system is up
@@ -528,7 +528,7 @@ gpgcheck=0</span>
 							<code>beegfs_storage_install.sh</code> and <code> chmod +x
 								beegfs_storage_install.sh </code>, and put it under
 									<code>/install/postscripts/</code> directroy, then append it
-									to the postscripts of each computing node.
+									to the postbootscripts of each computing node.
 									<div class="docs-code-block"><pre class="shadow-lg rounded"><code class="language-bash hljs">#!/bin/bash
 # beegfs-storage configuration
 <span class="hljs-built_in">yum </span>install -y beegfs-storage
@@ -573,7 +573,7 @@ n=<span class="hljs-built_in">${name:2}</span> # assuming the name will be cnX: 
 							installation. Save this in <code>beegfs_client_install.sh</code>
 							and <code> chmod +x beegfs_client_install.sh </code>, and put it under
 									<code>/install/postscripts/</code> directroy, then append it
-									to the postscripts of each computing node.
+									to the postbootscripts of each computing node.
 
 							<div class="docs-code-block">
 								<pre class="shadow-lg rounded"><code class="language-bash
