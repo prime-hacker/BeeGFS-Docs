@@ -108,7 +108,7 @@
 								href="#computing-advanced-conf">Advanced Configuration</a></li>
 				    <li class="nav-item section-title mt-3"><a class="nav-link
 								scrollto" href="#testing"><span class="theme-icon-holder
-									mr-2"><i class="fas fa-cog"></i></span>Testing</a></li>
+									mr-2"><i class="fas fa-cog"></i></span>Admin</a></li>
 				    <li class="nav-item"><a class="nav-link scrollto"
 								href="#connectivity">Connectivity</a></li>
 				    <li class="nav-item"><a class="nav-link scrollto"
@@ -126,7 +126,7 @@
 			    <article class="docs-article" id="intro">
 				    <header class="docs-header">
 					    <h1 class="docs-heading">Introduction <span
-									class="docs-time">Last updated: 2021-02-14</span></h1>
+									class="docs-time">Last updated: 2021-02-25</span></h1>
 					    <section class="docs-intro">
 								<p><code>beegfs</code> is a high-performance parallel file
 								system with easy management. It combines multiple storage servers
@@ -442,8 +442,9 @@
 								<li>
 									<p>Save this in a file
 									<code>beegfs_computing_install.sh</code>, <code>chmod +x
-										beegfs_computing_install.sh</code> and run
-									it.</p>
+										beegfs_computing_install.sh</code> and put it under
+									<code>/install/postscripts/</code> directroy, then append it
+									to the postscripts of each computing node.</p>
 									<div class="docs-code-block"><pre class="shadow-lg
 									rounded"><code class="language-bash hljs">#!/bin/bash
 # This script has to be run only once after the system is up
@@ -522,9 +523,10 @@ gpgcheck=0</span>
 							<p>
 							This is a script for the steps. Save this in
 							<code>beegfs_storage_install.sh</code> and <code> chmod +x
-								beegfs_storage_install.sh </code>, then execute it on all
-							computing nodes using <code>xCAT</code>.
-								<div class="docs-code-block"><pre class="shadow-lg rounded"><code class="language-bash hljs">#!/bin/bash
+								beegfs_storage_install.sh </code>, and put it under
+									<code>/install/postscripts/</code> directroy, then append it
+									to the postscripts of each computing node.
+									<div class="docs-code-block"><pre class="shadow-lg rounded"><code class="language-bash hljs">#!/bin/bash
 # beegfs-storage configuration
 <span class="hljs-built_in">yum </span>install -y beegfs-storage
 mgmt_name=<span class="hljs-string">"mgmt"</span>
@@ -562,8 +564,9 @@ n=<span class="hljs-built_in">${name:2}</span> # assuming the name will be cnX: 
 						<p>
 							This is a script to automate the steps of the client service
 							installation. Save this in <code>beegfs_client_install.sh</code>
-							and <code> chmod +x beegfs_client_install.sh </code>, then execute
-							it on all computing nodes using <code>xCAT</code>.
+							and <code> chmod +x beegfs_client_install.sh </code>, and put it under
+									<code>/install/postscripts/</code> directroy, then append it
+									to the postscripts of each computing node.
 
 							<div class="docs-code-block">
 								<pre class="shadow-lg rounded"><code class="language-bash
@@ -594,7 +597,7 @@ class="hljs-string">"$mgmt_name"</span>
 			    
 		        <article class="docs-article" id="testing">
 				    <header class="docs-header">
-					    <h1 class="docs-heading">Testing</h1>
+					    <h1 class="docs-heading">Admin</h1>
 					    <section class="docs-intro">
 						    <p>Some commands that checks the connectivity and free storage
 								of <code>beegfs</code>services.</p>
