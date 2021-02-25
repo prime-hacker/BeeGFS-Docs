@@ -622,7 +622,12 @@ class="hljs-string">"$mgmt_name"</span>
 							<div class="docs-code-block">
 								<pre class="shadow-lg rounded"><code class="language-bash
 								hljs">#!/bin/sh
+
+#$NODES variable is sent from xCAT and it contains all the names of the nodes that
+#need to run the script
 beegfsStorageDir=<span class="hljs-string">/storage</span>
+
+
 for NODE in $(echo $NODES | sed "s/,/ /g")
 do
   nodeID=$(xdsh $NODE "cat $beegfsStorageDir/nodeNumID")
