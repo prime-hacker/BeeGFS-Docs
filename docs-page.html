@@ -590,7 +590,65 @@ class="hljs-string">"$mgmt_name"</span>
 					
 					<section class="docs-section" id="computing-advanced-conf">
 							<h2 class="section-heading">Advanced Configuration</h2>
-						<p>To be updated..</p>
+
+							<h4>Unregistering Nodes Before Re-Provisioning</h4>
+							<p>
+								Before reprovisioning a computing node, you have to (assuming
+								this node has id in<code>beegfs</code>equal to<code>idOfThisNode</code>): 
+								<ol>
+									<li>
+										migrate the data of this node to the other nodes by
+										running: <br>
+										<code>beegfs-ctl --migrate /mnt/beegfs
+											--nodeid=idOfThisNode </code>
+									</li>
+									<li>
+										unregister the storage targets of this node from the
+										management server database by running: <br>
+										<code>beegfs-ctl --removenode --nodetype=storage
+											idOfThisNode</code>
+									</li>
+								</ol>
+							</p>
+							<p>
+								These commands will be written in a prescript called
+								<code>beegfs_migrate_delete</code> that is made executable for
+								root.
+								This prescript will be run by <code>xCAT</code> on the
+								management node, at the beginning of <code>xCAT</code>'s
+								<code>nodeset</code> command.
+							</p>
+
+							<div class="docs-code-block">
+								<pre class="shadow-lg rounded"><code class="language-bash
+								hljs">#!/bin/sh
+beegfsStorageDir=<span class="hljs-string">/storage</span>
+for NODE in $(echo $NODES | sed "s/,/ /g")
+do
+  nodeID=$(xdsh $NODE "cat $beegfsStorageDir/nodeNumID")
+  nodeID=${nodeID#${NODE}:} # stripping the node hostname from the result
+  # Migrating old data
+  xdsh $NODE "beegfs-ctl --migrate /mnt/beegfs --nodeid='$nodeID'"
+  # Unregistering the node from the management server
+  xdsh $NODE "beegfs-ctl --removenode --nodetype=storage '$nodeID'"
+done
+exit 0;</code></pre>
+
+								<figcaption class="figure-caption mt-3">
+									<i class="fas fa-info-circle mr-2"></i>
+									<code>beegfs_migrate_delete</code>
+								</figcaption>
+							</div>
+							<p>
+								To add it to all the nodes:<br>
+								<code>chdef all
+									prescripts-begin=osimage:beegfs_migrate_delete</code>
+							</p>
+							<p>
+								This means that it will run at the beginning of <br>
+								<code> nodeset all osimage=centos7.9-x86_64-install-compute
+								</code>
+							</p>
 					</section><!--//section-->
 			    </article><!--//docs-article-->
 			    
