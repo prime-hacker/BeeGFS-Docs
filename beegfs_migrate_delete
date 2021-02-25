@@ -1,0 +1,20 @@
+#!/bin/sh
+
+
+#$NODES variable is sent from xCAT and it contains all the names of the nodes that
+#need to run the script.
+beegfsStorageDir=/storage
+
+
+for NODE in $(echo $NODES | sed "s/,/ /g")
+  do
+    nodeID=$(xdsh $NODE "cat $beegfsStorageDir/nodeNumID")
+    nodeID=${nodeID#${NODE}:} # stripping the node hostname from the result
+    # Migrating old data
+    xdsh $NODE "beegfs-ctl --migrate /mnt/beegfs --nodeid='$nodeID'"
+    # Unregistering the node from the management server
+    xdsh $NODE "beegfs-ctl --removenode --nodetype=storage '$nodeID'"
+  done;
+
+
+exit 0;
